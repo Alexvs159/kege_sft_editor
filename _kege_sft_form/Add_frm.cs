@@ -61,7 +61,7 @@ namespace _kege_sft_form
             {
                 added_prog.ProgrammingLanguage = null; // Присваиваем null, если условие не выполняется
             }
-            added_prog.Id = (ch_kege_sft_frm.programs.Count).ToString();
+            added_prog.Id = (ch_kege_sft_frm.programs.Count + 1).ToString();
             added_prog.RegisterType = "Dictionary";
             added_prog.SoftwareType = "IDE";
             added_prog.Name = name.Text;

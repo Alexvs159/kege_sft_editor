@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Xml;
 using System.Reflection;
+using System.Collections;
 
 namespace _kege_sft_form
 {
@@ -15,18 +16,20 @@ namespace _kege_sft_form
         static List<RegisteredSoftware> selected_programs = new List<RegisteredSoftware>();
         RegisteredSoftware current_programm = new RegisteredSoftware();
         public static List<string> list_groups = new List<string>();
-        List<string> list_group_del = new List<string>();
+        public List<string> list_group_del = new List<string>();
         string fileText;
         string decode_file;
         int selected_item_index = 0;
+
 
         string save_path;
 
         public ch_kege_sft_frm()
         {
             InitializeComponent();
-
+            
             openFileDialog1.Filter = "SFT files(*.sft)|*.sft";
+            
         }
 
         private void openBTN_Click(object sender, EventArgs e)
@@ -47,8 +50,9 @@ namespace _kege_sft_form
             // читаем файл
             fileText = File.ReadAllText(filename);
             textBox1.Text = filename;
+            textBox2.Text = @"SOFT_KEGE_NEW.sft";
             save_path = Path.GetDirectoryName(openFileDialog1.FileName);
-            save_path = save_path + @"\SOFT_KEGE_NEW.sft";
+            save_path = save_path + textBox2.Text;
 
             // декодируем в биты
             var decode_file_bit = Convert.FromBase64String(fileText);
@@ -123,43 +127,39 @@ namespace _kege_sft_form
         }
 
         public void UpdateLV()
+
         {
             listView1.Items.Clear();
+            listView1.View = View.Details;
             // Ищем все группы и добавляем в лист итем
-            foreach (string gp in list_group_del)
+            foreach (string grp in list_group_del)
             {
-                listView1.Groups.Add(new ListViewGroup(gp.ToString()));
+                listView1.Groups.Add(new ListViewGroup(grp.ToString()));
             }
-
             // добавляем элементы в лист итем
-            for (int j = 0; j < programs.Count; j++)
+            foreach (RegisteredSoftware program in programs)
             {
-                ListViewItem lvitems = new ListViewItem();
-                ListViewItem.ListViewSubItem lvsubitems = new ListViewItem.ListViewSubItem();
-
-                lvitems.Text = programs[j].Name;
-                lvsubitems.Text = programs[j].Version;
-                lvitems.SubItems.Add(lvsubitems);
-                listView1.Items.Add(lvitems).Checked = true;
-            }
-
-            // группируем элементы
-            for (int i = 0; i < programs.Count; i++)
-            {
-                for (int j = 0; j < list_group_del.Count; j++)
+                // Создаем новый элемент ListViewItem с двумя колонками
+                ListViewItem item = new ListViewItem(new string[] { program.Name, program.Version });
+                // Определяем группу
+                for (int i = 0; i < listView1.Groups.Count; i++)
                 {
-                    if (list_groups[i] == list_group_del[j])
-                    {
-                        listView1.Items[i].Group = listView1.Groups[j];
-                    }
+                    if (program.SoftwareType == listView1.Groups[i].Header) { item.Group = listView1.Groups[i]; }
                 }
+                // Добавляем элемент в ListView
+                item.Checked = true;
+                item.Tag = program.Id;
+                listView1.Items.Add(item);
             }
 
             saveBTN.Enabled = true;
         }
 
+        
+
         private void saveBTN_Click(object sender, EventArgs e)
         {
+            save_path = textBox2.Text;
             var selectedLV = listView1.CheckedItems;
 
             for (int i = 0; i < programs.Count; i++)
@@ -174,6 +174,8 @@ namespace _kege_sft_form
             }
 
             SaveXML();
+            selected_programs.Clear();
+            programs.Clear();
         }
 
         private void SaveXML()
@@ -271,7 +273,7 @@ namespace _kege_sft_form
         private void reToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Edit_frm edit_frm = new Edit_frm(this.UpdateLV) { Owner = this };
-            if (listView1.SelectedItems.Count > 0 && listView1.SelectedItems.Count < 2)
+            if (listView1.SelectedItems.Count == 1)
             {
                 using (var edit_form = new Edit_frm(this.UpdateLV))
                 {
@@ -313,24 +315,32 @@ namespace _kege_sft_form
 
         private void удалитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (listView1.SelectedItems.Count > 0 && listView1.SelectedItems.Count < 2)
+            List<RegisteredSoftware> progs_todel = new List<RegisteredSoftware>();
+            List<Int32> indexes_todel = new List<int> { };
+            foreach (ListViewItem todel in listView1.SelectedItems)
             {
-                using (var edit_form = new Edit_frm(this.UpdateLV))
+                for (int i = 0; i < programs.Count; i++)
                 {
-                    for (int i = 0; i < programs.Count; i++)
+                    if (programs[i].Id == todel.Tag.ToString())
                     {
-                        if (programs[i].Name == listView1.SelectedItems[0].Text)
-                        {
-                            selected_item_index = i;
-                            break;
-                        }
+                        indexes_todel.Add(i);
                     }
-
-                    programs.RemoveAt(selected_item_index);
-                    UpdateLV();
                 }
+                
+             }
+            indexes_todel.Sort((a, b) => b.CompareTo(a));
+            foreach (int index in indexes_todel)
+            {
+                programs.RemoveAt(index);
             }
+            int k = 1;
+            foreach (RegisteredSoftware prog in programs)
+            {
+                prog.Id = k.ToString();
+                ++k;
+            }
+            UpdateLV();
         }
-
-    }
-}
+            }
+ 
+        }

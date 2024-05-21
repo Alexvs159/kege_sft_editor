@@ -38,17 +38,18 @@
             this.saveBTN = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.reToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.добавитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // openBTN
             // 
-            this.openBTN.Location = new System.Drawing.Point(475, 33);
+            this.openBTN.Location = new System.Drawing.Point(633, 41);
+            this.openBTN.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.openBTN.Name = "openBTN";
-            this.openBTN.Size = new System.Drawing.Size(75, 23);
+            this.openBTN.Size = new System.Drawing.Size(100, 28);
             this.openBTN.TabIndex = 0;
             this.openBTN.Text = "Выбрать";
             this.openBTN.UseVisualStyleBackColor = true;
@@ -56,9 +57,10 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(12, 33);
+            this.textBox1.Location = new System.Drawing.Point(16, 41);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(457, 20);
+            this.textBox1.Size = new System.Drawing.Size(608, 22);
             this.textBox1.TabIndex = 1;
             // 
             // listView1
@@ -70,10 +72,11 @@
             this.listView1.FullRowSelect = true;
             this.listView1.GridLines = true;
             this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(12, 68);
+            this.listView1.Location = new System.Drawing.Point(16, 84);
+            this.listView1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.listView1.Name = "listView1";
             this.listView1.ShowItemToolTips = true;
-            this.listView1.Size = new System.Drawing.Size(538, 439);
+            this.listView1.Size = new System.Drawing.Size(716, 539);
             this.listView1.TabIndex = 2;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -96,9 +99,10 @@
             // saveBTN
             // 
             this.saveBTN.Enabled = false;
-            this.saveBTN.Location = new System.Drawing.Point(475, 513);
+            this.saveBTN.Location = new System.Drawing.Point(633, 631);
+            this.saveBTN.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.saveBTN.Name = "saveBTN";
-            this.saveBTN.Size = new System.Drawing.Size(75, 23);
+            this.saveBTN.Size = new System.Drawing.Size(100, 28);
             this.saveBTN.TabIndex = 3;
             this.saveBTN.Text = "Сохранить";
             this.saveBTN.UseVisualStyleBackColor = true;
@@ -106,51 +110,53 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(12, 513);
+            this.textBox2.Location = new System.Drawing.Point(16, 631);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(448, 20);
+            this.textBox2.Size = new System.Drawing.Size(596, 22);
             this.textBox2.TabIndex = 4;
             // 
             // menuStrip1
             // 
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.добавитьToolStripMenuItem,
             this.reToolStripMenuItem,
             this.удалитьToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(558, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(744, 28);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
+            // 
+            // добавитьToolStripMenuItem
+            // 
+            this.добавитьToolStripMenuItem.Name = "добавитьToolStripMenuItem";
+            this.добавитьToolStripMenuItem.Size = new System.Drawing.Size(90, 24);
+            this.добавитьToolStripMenuItem.Text = "Добавить";
+            this.добавитьToolStripMenuItem.Click += new System.EventHandler(this.добавитьToolStripMenuItem_Click);
             // 
             // reToolStripMenuItem
             // 
             this.reToolStripMenuItem.Enabled = false;
             this.reToolStripMenuItem.Name = "reToolStripMenuItem";
-            this.reToolStripMenuItem.Size = new System.Drawing.Size(99, 20);
+            this.reToolStripMenuItem.Size = new System.Drawing.Size(125, 24);
             this.reToolStripMenuItem.Text = "Редактировать";
             this.reToolStripMenuItem.Click += new System.EventHandler(this.reToolStripMenuItem_Click);
-            // 
-            // добавитьToolStripMenuItem
-            // 
-            this.добавитьToolStripMenuItem.Name = "добавитьToolStripMenuItem";
-            this.добавитьToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
-            this.добавитьToolStripMenuItem.Text = "Добавить";
-            this.добавитьToolStripMenuItem.Click += new System.EventHandler(this.добавитьToolStripMenuItem_Click);
             // 
             // удалитьToolStripMenuItem
             // 
             this.удалитьToolStripMenuItem.Enabled = false;
             this.удалитьToolStripMenuItem.Name = "удалитьToolStripMenuItem";
-            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
+            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(79, 24);
             this.удалитьToolStripMenuItem.Text = "Удалить";
             this.удалитьToolStripMenuItem.Click += new System.EventHandler(this.удалитьToolStripMenuItem_Click);
             // 
             // ch_kege_sft_frm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(558, 544);
+            this.ClientSize = new System.Drawing.Size(744, 670);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.saveBTN);
             this.Controls.Add(this.listView1);
@@ -160,6 +166,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.Name = "ch_kege_sft_frm";
             this.Text = "Редактор списка программ КЕГЭ";

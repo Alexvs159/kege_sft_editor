@@ -29,6 +29,7 @@ namespace _kege_sft_form
             InitializeComponent();
             
             openFileDialog1.Filter = "SFT files(*.sft)|*.sft";
+            openFileDialog1.FileName = "";
             
         }
 

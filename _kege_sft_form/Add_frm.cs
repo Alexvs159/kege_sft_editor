@@ -8,6 +8,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace _kege_sft_form
 {
@@ -18,8 +19,25 @@ namespace _kege_sft_form
         public Add_frm(Action update_lv)
         {
             InitializeComponent();
+            type.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
             this.update_lv = update_lv;
             langs.Click += langs_Click;
+        }
+
+        private void ComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Проверяем выбранный элемент в ComboBox
+            if (type.SelectedIndex == 0)
+            {
+                // Включаем CheckedListBox
+                langs.Enabled = true;
+            }
+            else 
+            {
+                // Выключаем CheckedListBox
+                for (int i = 0; i < langs.Items.Count; i++) { langs.SetItemCheckState(i, CheckState.Unchecked); }
+                langs.Enabled = false;
+            }
         }
         
         private void langs_Click(object sender, EventArgs e)
@@ -33,6 +51,7 @@ namespace _kege_sft_form
                 langs.SetItemChecked(index, newState);
             }
         }
+        
         private void add_btn_Click(object sender, EventArgs e)
         {
             RegisteredSoftware added_prog = new RegisteredSoftware();

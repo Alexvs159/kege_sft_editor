@@ -118,6 +118,7 @@
             // 
             // langs
             // 
+            this.langs.Enabled = false;
             this.langs.FormattingEnabled = true;
             this.langs.Items.AddRange(new object[] {
             "CSharp",

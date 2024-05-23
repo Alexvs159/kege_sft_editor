@@ -124,10 +124,12 @@ namespace _kege_sft_form
                     
                 }
             }
+            UpdateID();
             UpdateLV();
         }
 
         public void UpdateLV()
+        //Обновление списка ПО в интерфейсе
 
         {
             list_group_del = list_groups.Distinct().ToList();
@@ -157,6 +159,15 @@ namespace _kege_sft_form
             saveBTN.Enabled = true;
         }
 
+        public void UpdateID()
+        {
+            int k = 1;
+            foreach (RegisteredSoftware prog in programs)
+            {
+                prog.Id = k.ToString();
+                ++k;
+            }
+        }
         private void saveBTN_Click(object sender, EventArgs e)
         {
             save_path = textBox2.Text;
@@ -337,12 +348,7 @@ namespace _kege_sft_form
             {
                 programs.RemoveAt(index);
             }
-            int k = 1;
-            foreach (RegisteredSoftware prog in programs)
-            {
-                prog.Id = k.ToString();
-                ++k;
-            }
+            UpdateID();
             UpdateLV();
         }
             }

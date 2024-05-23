@@ -22,6 +22,7 @@ namespace _kege_sft_form
         {
             InitializeComponent();
             this.update_lv = update_lv;
+            ok_btn.Focus();
         }
 
         private void cancel_btn_Click(object sender, EventArgs e)

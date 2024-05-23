@@ -42,7 +42,7 @@
             // 
             // add_btn
             // 
-            this.add_btn.Location = new System.Drawing.Point(70, 211);
+            this.add_btn.Location = new System.Drawing.Point(70, 209);
             this.add_btn.Name = "add_btn";
             this.add_btn.Size = new System.Drawing.Size(75, 23);
             this.add_btn.TabIndex = 0;
@@ -58,12 +58,12 @@
             "Spreadsheets"});
             this.type.FormattingEnabled = true;
             this.type.Items.AddRange(new object[] {
-            "IDE",
-            "TextEditor",
-            "Spreadsheet"});
+            "Среды разработки",
+            "Тектовые процессоры",
+            "Редакторы таблиц"});
             this.type.Location = new System.Drawing.Point(70, 12);
             this.type.Name = "type";
-            this.type.Size = new System.Drawing.Size(121, 21);
+            this.type.Size = new System.Drawing.Size(133, 21);
             this.type.TabIndex = 1;
             // 
             // label1
@@ -88,14 +88,14 @@
             // 
             this.name.Location = new System.Drawing.Point(70, 140);
             this.name.Name = "name";
-            this.name.Size = new System.Drawing.Size(121, 20);
+            this.name.Size = new System.Drawing.Size(133, 20);
             this.name.TabIndex = 6;
             // 
             // version
             // 
             this.version.Location = new System.Drawing.Point(70, 173);
             this.version.Name = "version";
-            this.version.Size = new System.Drawing.Size(121, 20);
+            this.version.Size = new System.Drawing.Size(133, 20);
             this.version.TabIndex = 7;
             // 
             // label3
@@ -121,22 +121,22 @@
             this.langs.Enabled = false;
             this.langs.FormattingEnabled = true;
             this.langs.Items.AddRange(new object[] {
-            "CSharp",
-            "CPlusPlus",
+            "C#",
+            "C++",
             "Java",
             "Python",
             "Pascal",
-            "Sal"});
+            "Школьный алг. язык"});
             this.langs.Location = new System.Drawing.Point(70, 39);
             this.langs.Name = "langs";
-            this.langs.Size = new System.Drawing.Size(120, 94);
+            this.langs.Size = new System.Drawing.Size(133, 94);
             this.langs.TabIndex = 10;
             // 
             // Add_frm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(249, 264);
+            this.ClientSize = new System.Drawing.Size(245, 257);
             this.Controls.Add(this.langs);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);

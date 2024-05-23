@@ -19,7 +19,7 @@ namespace _kege_sft_form
         public List<string> list_group_del = new List<string>();
         string fileText;
         string decode_file;
-        int selected_item_index = 0;
+        string selected_item_id;
 
 
         string save_path;
@@ -121,7 +121,7 @@ namespace _kege_sft_form
                     }
                     programs.Add(current_programm);
                     list_groups.AddRange(new[] { current_programm.SoftwareType });
-                    list_group_del = list_groups.Distinct().ToList();
+                    
                 }
             }
             UpdateLV();
@@ -130,6 +130,7 @@ namespace _kege_sft_form
         public void UpdateLV()
 
         {
+            list_group_del = list_groups.Distinct().ToList();
             listView1.Items.Clear();
             listView1.View = View.Details;
             // Ищем все группы и добавляем в лист итем
@@ -155,8 +156,6 @@ namespace _kege_sft_form
 
             saveBTN.Enabled = true;
         }
-
-        
 
         private void saveBTN_Click(object sender, EventArgs e)
         {
@@ -241,18 +240,17 @@ namespace _kege_sft_form
                 if (File.Exists(save_path)) { File.Delete(save_path); }
                 fstream = new FileStream(save_path, FileMode.OpenOrCreate);
                 fstream.Write(code_data, 0, code_data.Length);
+                fstream.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error ", "Write error", MessageBoxButtons.OK);
+                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка записи", MessageBoxButtons.OK);
             }
             finally
             {
-                fstream.Close();
+                //bool csf = ;
 
-                bool csf = check_save_file();
-
-                if (true)
+                if (check_save_file())
                 {
                     MessageBox.Show("Файл сохранен по пути: " + save_path, "Файл сохранен", MessageBoxButtons.OK);
                 }
@@ -268,7 +266,7 @@ namespace _kege_sft_form
                 var decode_file_bit = Convert.FromBase64String(fileText);
                 return true;
             }
-            catch { MessageBox.Show("Error ", "Save file error, try again", MessageBoxButtons.OK); return false; }
+            catch { MessageBox.Show("Ошибка", "Файл не сохранен", MessageBoxButtons.OK); return false; }
         }
 
         private void reToolStripMenuItem_Click(object sender, EventArgs e)
@@ -278,25 +276,30 @@ namespace _kege_sft_form
             {
                 using (var edit_form = new Edit_frm(this.UpdateLV))
                 {
-                    for (int i = 0; i < programs.Count; i++)
+                    //определяем редактируемый элемент
+                    selected_item_id = listView1.SelectedItems[0].Tag.ToString();
+                    for (int i = 0; i < programs.Count; i++) 
                     {
-                        if (programs[i].Name == listView1.SelectedItems[0].Text)
-                        {
-                            selected_item_index = i;
-                            break;
+                        if (listView1.SelectedItems[0].Tag.ToString() == programs[i].Id) 
+                        { 
+                            //передаем редактируемый элемент в форму редактирования
+                            edit_form.editabel_item = programs[i];
+                            edit_form.index = i;
+                            break; 
                         }
-                    }
-
-                    edit_form.editabel_item = programs[selected_item_index];
-                    edit_form.index = selected_item_index;
-
+                    } 
                     //показываем форму
                     edit_form.ShowDialog();
 
                 }
-            }// проходимся по всем элементам programs, ищем индекс элемента по имени выделенного и передаем в форму2 этот элемент
+            }
+            else
+            {
+                MessageBox.Show("Ошибка", "Выберите один элемент", MessageBoxButtons.OK);
+            }
         }
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        //пока не выбран элемент, кнопки удалить и редактировать недоступны
         {
             if (listView1.SelectedItems.Count != 0)
             {

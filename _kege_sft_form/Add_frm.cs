@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace _kege_sft_form
 {
@@ -19,11 +20,13 @@ namespace _kege_sft_form
         public Add_frm(Action update_lv)
         {
             InitializeComponent();
-            type.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
             this.update_lv = update_lv;
+            //подписка на события
+            type.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
             langs.Click += langs_Click;
+            add_btn.Focus();
         }
-
+        
         private void ComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Проверяем выбранный элемент в ComboBox
@@ -41,6 +44,7 @@ namespace _kege_sft_form
         }
         
         private void langs_Click(object sender, EventArgs e)
+        //обработка выбора языка программирования, чтобы чекбокс включался по одиночному клику
         {
             Point point = langs.PointToClient(Cursor.Position);
             int index = langs.IndexFromPoint(point);
@@ -63,17 +67,25 @@ namespace _kege_sft_form
             {
                 MessageBox.Show("Необходимо выбрать тип", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            if (version.Text.Length == 0) { MessageBox.Show("Введите версию добавляемого ПО", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
+
+            List<String> TypesToFile = new List<string> { "IDE", "TextEditor", "Spreadsheet" };
+            added_prog.SoftwareType = TypesToFile[type.SelectedIndex];
             // Проверяем условие SoftwareType
             if (added_prog.SoftwareType == "IDE")
             {
+                List<String> LangsToFile = new List<string> { "CSharp", "CPlusPlus", "Java", "Python", "Pascal", "Sal"};
                 StringBuilder selectedLangsStringBuilder = new StringBuilder();
 
-                foreach (object item in langs.CheckedItems)
+                for (int i = 0; i < langs.Items.Count; i++)
                 {
-                    selectedLangsStringBuilder.Append(item.ToString());
-                    selectedLangsStringBuilder.Append(" "); // Добавляем пробел между элементами
+                    if (langs.GetItemChecked(i))
+                    {
+                        selectedLangsStringBuilder.Append(LangsToFile[i]);
+                        selectedLangsStringBuilder.Append(" "); // Добавляем пробел между элементами
+                    }
                 }
-
+                                
                 added_prog.ProgrammingLanguage = selectedLangsStringBuilder.ToString().Trim(); // Присваиваем значение переменной ProgrammingLanguage
             }
             else
@@ -82,7 +94,6 @@ namespace _kege_sft_form
             }
             added_prog.Id = (ch_kege_sft_frm.programs.Count + 1).ToString();
             added_prog.RegisterType = "Dictionary";
-            added_prog.SoftwareType = "IDE";
             added_prog.Name = name.Text;
             added_prog.Version = version.Text;
             

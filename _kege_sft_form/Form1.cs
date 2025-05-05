@@ -51,7 +51,7 @@ namespace _kege_sft_form
             // читаем файл
             fileText = File.ReadAllText(filename);
             textBox1.Text = filename;
-            textBox2.Text = @"SOFT_KEGE_NEW.sft";
+            textBox2.Text = $"SOFT_KEGE_NEW_{DateTime.Now:yyyyMMdd}.sft";
             save_path = Path.GetDirectoryName(openFileDialog1.FileName);
             save_path = save_path + textBox2.Text;
 
@@ -156,7 +156,20 @@ namespace _kege_sft_form
                 listView1.Items.Add(item);
             }
 
-            saveBTN.Enabled = true;
+            if (programs.Count > 0)
+            {
+                if (string.IsNullOrEmpty(openFileDialog1.FileName))
+                {
+                    save_path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + $"\\SOFT_KEGE_NEW_{DateTime.Now:yyyyMMdd}.sft"; ;
+                }
+                else
+                {
+                    save_path = Path.GetDirectoryName(openFileDialog1.FileName) + $"SOFT_KEGE_NEW_{DateTime.Now:yyyyMMdd}.sft";
+                }
+
+                textBox2.Text = save_path;
+                saveBTN.Enabled = true;
+            }
         }
 
         public void UpdateID()
@@ -280,7 +293,7 @@ namespace _kege_sft_form
             catch { MessageBox.Show("Ошибка", "Файл не сохранен", MessageBoxButtons.OK); return false; }
         }
 
-        private void reToolStripMenuItem_Click(object sender, EventArgs e)
+        private void EditBtn_Click(object sender, EventArgs e)
         {
             Edit_frm edit_frm = new Edit_frm(this.UpdateLV) { Owner = this };
             if (listView1.SelectedItems.Count == 1)
@@ -294,14 +307,15 @@ namespace _kege_sft_form
                         if (listView1.SelectedItems[0].Tag.ToString() == programs[i].Id) 
                         { 
                             //передаем редактируемый элемент в форму редактирования
-                            edit_form.editabel_item = programs[i];
+                            edit_form.editable_item = programs[i];
                             edit_form.index = i;
                             break; 
                         }
                     } 
                     //показываем форму
                     edit_form.ShowDialog();
-
+                    EditBtn.Enabled = false; 
+                    RemoveBtn.Enabled = false;
                 }
             }
             else
@@ -314,13 +328,13 @@ namespace _kege_sft_form
         {
             if (listView1.SelectedItems.Count != 0)
             {
-                reToolStripMenuItem.Enabled = true;
-                удалитьToolStripMenuItem.Enabled = true;
+                EditBtn.Enabled = true;
+                RemoveBtn.Enabled = true;
             }
-            else { reToolStripMenuItem.Enabled = false; удалитьToolStripMenuItem.Enabled = false;}
+            else { EditBtn.Enabled = false; RemoveBtn.Enabled = false;}
         }
 
-        private void добавитьToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AddBtn_Click(object sender, EventArgs e)
         {
 
             Add_frm addfrm = new Add_frm(this.UpdateLV) { Owner = this };
@@ -328,7 +342,7 @@ namespace _kege_sft_form
                 addfrm.ShowDialog();
         }
 
-        private void удалитьToolStripMenuItem_Click(object sender, EventArgs e)
+        private void RemoveBtn_Click(object sender, EventArgs e)
         {
             List<RegisteredSoftware> progs_todel = new List<RegisteredSoftware>();
             List<Int32> indexes_todel = new List<int> { };
@@ -350,7 +364,10 @@ namespace _kege_sft_form
             }
             UpdateID();
             UpdateLV();
+            EditBtn.Enabled = false;
+            RemoveBtn.Enabled = false;
         }
-            }
+
+    }
  
         }
